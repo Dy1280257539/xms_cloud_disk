@@ -1,0 +1,2 @@
+killall watch_register_server
+killall register_server

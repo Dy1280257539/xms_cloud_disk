@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4C6D16B6-D6BF-48B9-A654-55432E4F00AD}</ProjectGuid>
+    <Keyword>QtVS_v302</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\bin\x86</OutDir>
+  </PropertyGroup>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <QtInstall>msvc2017</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <QtInstall>msvc2017</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
+  </PropertyGroup>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalIncludeDirectories>..\..\include;..\xplatform;..\xms_dir_service;..\xdisk_pb;.\;..\xauth;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libprotobufd.lib;xplatform_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat />
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\xauth\xauth_client.cpp" />
+    <ClCompile Include="..\xdisk_pb\xms_disk_client_gui.pb.cc" />
+    <ClCompile Include="..\xplatform\xmsg_com.pb.cc" />
+    <ClCompile Include="..\xplatform\xmsg_type.pb.cc" />
+    <ClCompile Include="filepassword.cpp" />
+    <ClCompile Include="logingui.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="taskitemgui.cpp" />
+    <ClCompile Include="task_list_gui.cpp" />
+    <ClCompile Include="xdownload_client.cpp" />
+    <ClCompile Include="xfile_manager.cpp" />
+    <ClCompile Include="xget_dir_client.cpp" />
+    <ClCompile Include="xmsdiskclientgui.cpp" />
+    <ClCompile Include="xms_file_manager.cpp" />
+    <ClCompile Include="xupload_client.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="xmsdiskclientgui.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="xmsdiskclientgui.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="xms_disk_client_gui.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\xdisk_pb\xms_disk_client_gui.proto" />
+    <None Include="build_msg.bat" />
+    <None Include="云盘客户端设计.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\xauth\xauth_client.h" />
+    <QtMoc Include="task_list_gui.h" />
+    <QtMoc Include="taskitemgui.h" />
+    <QtMoc Include="xfile_manager.h" />
+    <QtMoc Include="logingui.h" />
+    <ClInclude Include="..\xdisk_pb\xms_disk_client_gui.pb.h" />
+    <ClInclude Include="..\xplatform\xmsg_com.pb.h" />
+    <ClInclude Include="..\xplatform\xmsg_type.pb.h" />
+    <QtMoc Include="filepassword.h" />
+    <ClInclude Include="xdownload_client.h" />
+    <ClInclude Include="xget_dir_client.h" />
+    <ClInclude Include="xms_file_manager.h" />
+    <ClInclude Include="xupload_client.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="filepassword.ui" />
+    <QtUic Include="logingui.ui" />
+    <QtUic Include="taskitemgui.ui" />
+    <QtUic Include="task_list_gui.ui" />
+    <QtUic Include="xmsdiskclientgui.ui" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

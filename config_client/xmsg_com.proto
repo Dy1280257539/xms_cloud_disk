@@ -1,0 +1,203 @@
+syntax="proto3";	//版本号
+package xmsg;		//命名空间
+import "xmsg_type.proto";
+
+//消息头
+message XMsgHead
+{
+	//消息内容大小，不包含头
+	int32 msg_size = 1;
+	
+	//消息类型
+	MsgType msg_type = 2;
+
+	//令牌 如果时登陆消息则未空
+	string token = 3;	
+
+	//微服务的名称，用于路由
+    string service_name = 4;
+
+	int64 msg_id = 5;
+}
+
+//心跳
+message XMsgHeart
+{
+	int64 count = 1;
+}
+
+
+
+
+///用户登陆请求 MSG_LOGIN_REQ
+message XLoginReq
+{
+	string username = 1;	//用户名
+	string password = 2;	//md5后的密码
+}
+
+//服务端响应回复消息 MSG_LOGIN_RES
+message XLoginRes
+{
+	enum XLoginResType
+	{
+		OK = 0;		//登陆成功
+		ERROR=1;	//用户名密码错误
+		NOUSER=2;	//用户不存在
+	}
+	XLoginResType res = 1;
+
+	//登陆成功返回令牌，失败未空
+	string token = 2;
+}
+
+//目录请求
+message XDirReq
+{
+	string path = 1;
+}
+
+//目录响应
+message XDirRes
+{
+	enum XDirType
+	{
+		OK = 0;		//目录获取成功
+		ERROR = 1;	//目录获取错误
+		NODIR = 2;	//目录不存在
+	}
+	message XDir
+	{
+		string filename = 1;
+		int32 filesize = 2;
+	}
+	XDirType res = 1;
+	repeated XDir dirs = 2;	//目录文件列表
+}
+
+
+
+
+//通用响应 MSG_REGISTER_RES 注册服务响应
+message XMessageRes
+{
+	enum XReturn
+	{
+		OK = 0;		
+		ERROR = 1;
+	}
+	XReturn return = 1;
+	bytes msg = 2;
+}
+//MSG_REGISTER_REQ = 5;	//注册服务请求
+message XRegisterReq
+{
+	string name = 1;//服务名称
+	int32 port = 2;	//服务端口
+	string ip = 3;	//服务ip
+}
+
+enum XServiceType
+{
+	ONE = 0;	//只取一类服务	
+	ALL = 1;	//取全部服务
+}
+message XServiceMap
+{
+	message XService
+	{
+		string name = 1;
+		string ip = 2;
+		int32 port = 3;
+	}
+	message XServiceList
+	{
+		repeated XService service = 1;
+	}
+	map<string,XServiceList> service_map = 1;
+	XMessageRes res = 2;
+
+	XServiceType type = 3;
+
+}
+//MSG_GET_SERVICE_REQ = 7;	//发现服务请求
+message XGetServiceReq
+{
+	string name = 1;//	服务名称，如果未空，则获取所有服务
+	XServiceType type = 2;
+}
+
+
+//MSG_GET_SERVICE_RES = 8;	//发现服务响应
+
+
+///存储配置内容
+message XConfig
+{
+	string service_name = 1;
+	int32 service_port = 2;
+	string  service_ip = 3;
+	bytes private_pb = 4;			//本身对象的序列化，客户端不需要写入，由服务端生成
+	bytes proto = 5;
+}
+
+//下载配置请求，响应是 XConfig
+message XLoadConfigReq
+{
+	int32 service_port = 1;
+	string service_ip = 2;
+}
+
+message XDirConfig
+{
+	string root = 1;
+}
+
+
+//请求获取配置列表
+//MSG_LOAD_ALL_CONFIG_REQ = 13;	//XLoadAllConfigReq
+message XLoadAllConfigReq
+{
+	int32 page = 1;			//分页的第几页 从1开始
+	int32 page_count = 2;	//每页显示的记录数量
+}
+
+//MSG_LOAD_ALL_CONFIG_RES = 14;	//XConfigList
+
+//响应配置列表
+//只包含微服务名称，IP，port
+message XConfigList
+{
+	repeated XConfig config = 1;
+}
+
+
+
+//网关配置
+message XGatewayConfig
+{
+	bool is_ssl = 1;			//是否开启ssl通信
+	string crt_path = 2;		//证书路径
+	string key_path = 3;		//私钥路径
+	string vali_client_crt_path=4;//验证客户端证书签名的CA，如果为空不验证
+}
+
+
+
+
+
+
+
+
+//鉴权微服务配置
+message XAuthConfig
+{
+	string db_ip = 1;		//数据库ip 默认 127.0.0.1
+	string dp_user = 2;		//数据库用户 默认 root
+	string dp_pass = 3;		//数据库密码  后面考虑要加密存储 默认为空
+	string dp_type = 4;		//数据库类型，暂时只支持mysql，后面考虑加redis
+	string dp_name = 5;		//数据库的名称 	默认 xms
+}
+
+
+

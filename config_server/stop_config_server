@@ -1,0 +1,2 @@
+killall watch_config_server
+killall config_server

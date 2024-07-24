@@ -1,0 +1,18 @@
+Register Client 
+register_client 127.0.0.1 20018 
+Create thread 0
+1 XThread::Main() begin
+1 thread c
+SEventCB:128
+BEV_EVENT_CONNECTED
+INFO:xcom_task.cpp:169
+connnect server 127.0.0.1:20018 success!
+DEBUG:xregister_client.cpp:162
+connected start send MSG_REGISTER_REQ 
+msg_.Recved()
+DEBUG:xmsg_event.cpp:55
+
+DEBUG:xregister_client.cpp:142
+RegisterRes
+DEBUG:xregister_client.cpp:156
+RegisterRes failed! test|127.0.0.1:20020微服务已经注册过
